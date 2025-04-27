@@ -1,4 +1,4 @@
-// src/app/page.tsx
+// src/app/classes/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import { getClassSchedule } from "@/lib/api";
 import { ClassSchedule } from "@/types/gymmaster";
 import Link from "next/link";
 
-export default function Home() {
+export default function Classes() {
   const [classes, setClasses] = useState<ClassSchedule[]>([]);
 
   useEffect(() => {
@@ -23,19 +23,9 @@ export default function Home() {
 
   return (
     <div className="space-y-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-4xl font-bold">Welcome to GymMaster</h1>
-        <p className="mt-2 text-muted-foreground">
-          Book classes, manage memberships, and track your fitness journey.
-        </p>
-      </motion.div>
-      <h2 className="text-2xl font-semibold">Featured Classes</h2>
+      <h1 className="text-3xl font-bold">Class Schedule</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {classes.slice(0, 3).map((classItem) => (
+        {classes.map((classItem) => (
           <motion.div
             key={classItem.id}
             initial={{ opacity: 0, scale: 0.95 }}
@@ -59,6 +49,10 @@ export default function Home() {
                 </p>
                 <p className="text-sm">
                   <strong>Location:</strong> {classItem.location}
+                </p>
+                <p className="text-sm">
+                  <strong>Spaces Available:</strong> {classItem.spacesfree}/
+                  {classItem.max_students}
                 </p>
                 <Button className="mt-4" asChild>
                   <Link href={`/classes/${classItem.id}`}>Book Now</Link>
